@@ -10,7 +10,7 @@ sudo apt-get install -y nginx
 sudo sed -i 's/listen 80;/listen 80 default_server;/g' /etc/nginx/sites_available/default
 
 # Restart Nginx
-sudo server nginx restart
+sudo service nginx restart
 
 # Create a simple HTML page with "Hello World!"
 echo "Hello World!" | sudo tee /var/www/html/index.html
