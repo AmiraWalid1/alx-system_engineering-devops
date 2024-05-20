@@ -1,8 +1,25 @@
 #!/usr/bin/env bash
-# configure Nginx so that /redirect_me is redirecting to another page
-apt-get -y update
-apt-get install -y nginx
-ufw allow 'Nginx HTTP'
-str_command="server_name _;\n\trewrite ^\/redirect_me https:\/\/https://www.youtube.com/watch?v=eCOdMdWbP_4 permanent;"
-sed -i "s#server_name _;#$str_command#" /etc/nginx/sites-available/default
-service nginx restart
+# Install Nginx
+sudo apt-get update
+sudo apt-get install -y nginx
+
+# Allow Nginx HTTP through the firewall
+sudo ufw allow 'Nginx HTTP'
+
+# Configure Nginx to redirect /redirect_me to https://www.youtube.com
+sudo bash -c 'cat << EOF > /etc/nginx/sites-available/default
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+    location / {
+        try_files  / =404;
+    }
+    location /redirect_me {
+        return 301 https://www.youtube.com;
+    }
+}
+EOF'
+
+# Restart Nginx to apply the changes
+sudo service nginx restart
