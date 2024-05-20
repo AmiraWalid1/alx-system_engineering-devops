@@ -13,4 +13,5 @@ str="server_name _;\\
 sudo sed -i "s|server_name _;|$str|" /etc/nginx/sites-available/default
 
 # Restart Nginx to apply the changes
+sudo service nginx start
 sudo service nginx restart
