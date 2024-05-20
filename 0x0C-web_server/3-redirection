@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
+
 # Install Nginx
 sudo apt-get update
 sudo apt-get install -y nginx
 
-# Allow Nginx HTTP through the firewall
-sudo ufw allow 'Nginx HTTP'
+# Allow Nginx HTTP and HTTPS through the firewall
+sudo ufw allow 'Nginx Full'
 
 # Configure Nginx to redirect /redirect_me to https://www.youtube.com
-str="server_name _;\\
-	location = /redirect_me {
-		return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-	}"
+str="server_name _;\\n\\
+    location /redirect_me {\\n\\
+        rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\\n\\
+    }"
 
 sudo sed -i "s|server_name _;|$str|" /etc/nginx/sites-available/default
 
