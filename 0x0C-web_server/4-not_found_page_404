@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Install Nginx
+sudo apt-get update
+sudo apt-get install -y nginx
+
+# Allow Nginx HTTP through the firewall
+sudo ufw allow 'Nginx HTTP'
+
+# Create a custom 404 page
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html
+
+# Ensure permissions for the HTML file
+sudo chmod 644 /var/www/html/custom_404.html
+
+# Configure Nginx to redirect /redirect_me to https://www.youtube.com
+sudo bash -c 'cat << EOF > /etc/nginx/sites-available/default
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+    location / {
+        try_files  / =404;
+    }
+    location /redirect_me {
+        return 301 https://www.youtube.com;
+    }
+    error_page 404 /custom_404.html;
+    location = /custom_404.html {
+        root /var/www/html;
+        internal;
+    }
+}
+EOF'
+
+# Restart Nginx to apply the changes
+sudo service nginx restart
