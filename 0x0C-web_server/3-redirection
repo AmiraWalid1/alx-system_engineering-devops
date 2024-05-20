@@ -10,9 +10,9 @@ sudo ufw allow 'Nginx HTTP'
 
 # Configure your Nginx server so that /redirect_me is redirecting to another page.
 redirect="server_name _;\\
-location /redirect_me {\\
-	return 301 https://www.youtube.com;\\
-}"
+	location /redirect_me {\\
+		return 301 https://www.youtube.com;\\
+	}"
 
 sudo sed -i "s|server_name _;|$redirect|" /etc/nginx/sites-available/default
 
