@@ -7,19 +7,10 @@ sudo apt-get install -y nginx
 sudo ufw allow 'Nginx HTTP'
 
 # Configure Nginx to redirect /redirect_me to https://www.youtube.com
-sudo bash -c 'cat << EOF > /etc/nginx/sites-available/default
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    server_name _;
-    location / {
-        try_files  / =404;
-    }
-    location /redirect_me {
-        return 301 https://www.youtube.com;
-    }
-}
-EOF'
+str="server_name _;\\
+	rewrite /redirect_me https://www.youtube.com permanent;"
+
+sudo sed -i "s|server_name _;|$str|" /etc/nginx/sites-available/default
 
 # Restart Nginx to apply the changes
 sudo service nginx restart
