@@ -11,7 +11,7 @@ sudo ufw allow 'Nginx Full'
 sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
 
 str="server_name _;\\
-		rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;"
+	rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;"
 
 sudo sed -i "s|server_name _;|$str|" /etc/nginx/sites-enabled/default
 
