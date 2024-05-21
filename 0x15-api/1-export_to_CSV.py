@@ -14,7 +14,7 @@ if __name__ == "__main__":
     user = requests.get(url + f'users/{user_id}')
 
     if (user.status_code == 200):
-        user_name = user.json()['name']
+        user_name = user.json()['username']
         todo = requests.get(url + f'todos?userId={user_id}')
 
         if todo.status_code == 200:
