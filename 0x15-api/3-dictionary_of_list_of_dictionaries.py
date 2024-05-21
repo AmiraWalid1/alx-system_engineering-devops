@@ -11,8 +11,7 @@ if __name__ == "__main__":
     ''' main program '''
     url = f'https://jsonplaceholder.typicode.com/'
     users = requests.get(url + 'users/')
-    
-    
+
     if (users.status_code == 200):
         mydic = {}
         users = users.json()
@@ -36,6 +35,6 @@ if __name__ == "__main__":
                     )
 
                 mydic[user_id] = mytodo
-            
+
         with open('todo_all_employees.json', 'w') as file:
             json.dump(mydic, file)
